@@ -1,6 +1,5 @@
 package com.example.paybackchallenge.framework.datasource.images
 
-import android.content.Context
 import com.example.paybackchallenge.data.datasource.ImagesRemoteSource
 import com.example.paybackchallenge.domain.entities.Image
 import com.example.paybackchallenge.framework.api.ApiTools
@@ -13,8 +12,8 @@ class ImagesRemoteSourceImp @Inject constructor(
     private val api: PixabayApi
 ) : ImagesRemoteSource {
 
-    override suspend fun searchImages(): List<Image> {
-        val res = api.searchImages(API_KEY,"fruit","photo")
+    override suspend fun searchImages(text: String): List<Image> {
+        val res = api.searchImages(API_KEY,text,"photo")
         ApiTools.validateResponseOrFail(res)
         return res.body()!!.hits.map { it.toEntity() }
     }

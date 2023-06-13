@@ -20,8 +20,8 @@ class HomeUseCase @Inject constructor(private val userDao: UserDao,private val i
         return userDao.getSuperCharges()
     }
 
-    suspend fun searchImages(): List<Image> {
-        return imagesRepo.searchImages()
+    suspend fun searchImages(text: String): List<Image> {
+        return imagesRepo.searchImages(text)
     }
 }
 

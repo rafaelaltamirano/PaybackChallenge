@@ -3,12 +3,12 @@
     <string name="kms">%1$s km</string>
     <string name="available">%1$s/%1$s Available</string>
     <string name="nearby_supercharges">Nearby supercharges</string>
-    <string name="statistics">Statistics</string>
+    <string name="results">Results</string>
     <string name="good_morning">Good Morning %1$s</string>
-    <string name="charging_car">Charging your car…</string>
-    <string name="time_to_end">TIME TO END OF CHANGE: %1$s Min</string>
-    <string name="time_to_end_second">%1$s Min to End</string>
-    <string name="car_model">Tesla Model X</string>
+    <string name="stunning_image">Stunning royalty-free images</string>
+    <string name="more_than">Over 4 million+ high quality stock images</string>
+    <string name="over_4_million">+4 million images</string>
+    <string name="looking_for">Looking for…</string>
     <string name="n_volt">%1$s %1$s</string>
     <string name="remaining_charge">Remaining charge</string>
     <string name="voltage">Voltage</string>

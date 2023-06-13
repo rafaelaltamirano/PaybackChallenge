@@ -28,7 +28,7 @@ class HomeScreenViewModel @Inject constructor(
     init {
         requestCar()
         requestCharges()
-        requestImages()
+        requestImages("fruits")
     }
 
     private fun setLoading(loading: Boolean) {
@@ -75,11 +75,12 @@ class HomeScreenViewModel @Inject constructor(
         }
     }
 
-    private fun requestImages() = viewModelScope.launch {
+
+     fun requestImages(text : String) = viewModelScope.launch {
         try {
             setLoading(true)
             withContext(Dispatchers.IO) {
-                homeUseCase.searchImages()
+                homeUseCase.searchImages(text)
             }.also { setImages(it) }
         } catch (e: Exception) {
             handleNetworkError(e)

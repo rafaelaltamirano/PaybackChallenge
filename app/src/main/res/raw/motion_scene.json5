@@ -8,40 +8,28 @@
       body: {
         width: 'parent',
         height: 'spread',
-        top: ['header', 'bottom'],
+        top: ['header', 'bottom',30],
         bottom: ['parent', 'bottom']
-      },
-      circle: {
-        width: 'parent',
-        top: ['parent', 'top',215],
-        start: ['parent', 'start'],
-        end: ['parent', 'end']
       },
       canvas: {
         width: 'parent',
         height: 30,
         top: ['header', 'bottom'],
-        bottom: ['body', 'top',30]
+        bottom: ['body', 'top']
       },
-      welcome_message: {
+      stunning_image: {
         start: ['header', 'start'],
         end: ['header', 'end'],
-        top: ['header', 'top'],
-      },
-      charging_message: {
-        start: ['header', 'start'],
-        end: ['header', 'end'],
-        top: ['welcome_message', 'bottom',5],
-        bottom: ['content1', 'top',10],
+        top: ['header', 'top',40]
       },
       content1: {
         start: ['header', 'start'],
         end: ['header', 'end'],
-        top: ['charging_message', 'bottom', 24],
-        bottom: ['time_charge', 'top', 12],
+        top: ['stunning_image', 'bottom', 24],
+        bottom: ['more_than', 'top', 12],
         width: 'parent',
       },
-      time_charge: {
+      more_than: {
         start: ['header', 'start'],
         end: ['header', 'end'],
         top: ['content1', 'bottom',20]
@@ -57,13 +45,6 @@
       header: {
         height: 100
       },
-      circle: {
-        width: 60,
-        height: 60,
-        top: ['parent', 'top',60],
-        start: ['parent', 'start'],
-        end: ['parent', 'end']
-      },
       body: {
         width: 'parent',
         height: 'spread',
@@ -77,10 +58,10 @@
         bottom: ['body', 'top']
       },
       content1: {
-        end: ['parent', 'end', 40],
+        end: ['parent', 'end', 8],
         bottom: ['header', 'bottom', 8],
         top: ['header', 'top', 8],
-        width: 120,
+        width: 240,
       },
       content2: {
         start: ['header', 'start', 24],
@@ -111,11 +92,6 @@
             frames: [0, 50, 100],
             translationX: [0, 70, 0],
           },
-          {
-            target: ['circle'],
-            frames: [0, 50, 0],
-            translationX: [0, -45, 0],
-          }
         ]
       },
     }

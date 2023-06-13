@@ -14,10 +14,16 @@ import androidx.compose.ui.unit.dp
 import com.example.paybackchallenge.R
 
 @Composable
-fun StatisticsTopBar( title: String,
-                      indicatorText :String? = null ) {
-    Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp),
-        verticalAlignment = Alignment.CenterVertically){
+fun StatisticsTopBar(
+    title: String,
+    indicatorText: String? = null
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
         Text(
             text = title,
             style = MaterialTheme.typography.h2,
@@ -28,20 +34,12 @@ fun StatisticsTopBar( title: String,
                 .weight(1f)
                 .fillMaxHeight()
         )
-        if(indicatorText.isNullOrEmpty()) {
-            Icon(
-                painter = painterResource(R.drawable.ic_three_dots),
-                modifier = Modifier.size((25.dp)).padding(2.dp).alpha(0.6f),
-                contentDescription = "Three dots menu",
-            )
-        }
-        else {
-            Text(
-                modifier = Modifier.alpha(0.6f),
-                text = indicatorText,
-                color = Color.Black,
-                style = MaterialTheme.typography.caption
-            )
-        }
+        Text(
+            modifier = Modifier.alpha(0.6f),
+            text = indicatorText ?: "",
+            color = Color.Black,
+            style = MaterialTheme.typography.caption
+        )
+
     }
 }

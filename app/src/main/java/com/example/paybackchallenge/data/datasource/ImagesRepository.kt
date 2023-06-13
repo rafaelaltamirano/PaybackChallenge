@@ -10,7 +10,7 @@ class ImagesRepository(
     var images: List<Image>? = emptyList()
         private set
 
-    suspend fun searchImages() = remote.searchImages().also { save(it) }
+    suspend fun searchImages(text: String) = remote.searchImages(text).also { save(it) }
 
     override suspend fun save(t: List<Image>) {
         images = t
@@ -28,7 +28,7 @@ class ImagesRepository(
 
 interface ImagesRemoteSource {
 
-    suspend fun searchImages() : List<Image>
+    suspend fun searchImages(text: String): List<Image>
 
 }
 
