@@ -137,6 +137,7 @@ fun HomeScreen(homeModel: HomeScreenViewModel, mainModel: MainModel) {
                                 modifier = Modifier.fillMaxSize()
                             ) {
                                 items(1) {
+                                    Spacer(Modifier.height(12.dp))
                                     StatisticsTopBar(stringResource(R.string.results))
                                     Spacer(Modifier.height(24.dp))
                                 }
