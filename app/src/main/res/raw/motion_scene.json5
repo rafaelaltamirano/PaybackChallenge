@@ -1,0 +1,123 @@
+{
+  ConstraintSets: {
+    start: {
+      header: {
+        width: 'parent',
+        height: 'spread'
+      },
+      body: {
+        width: 'parent',
+        height: 'spread',
+        top: ['header', 'bottom'],
+        bottom: ['parent', 'bottom']
+      },
+      circle: {
+        width: 'parent',
+        top: ['parent', 'top',215],
+        start: ['parent', 'start'],
+        end: ['parent', 'end']
+      },
+      canvas: {
+        width: 'parent',
+        height: 30,
+        top: ['header', 'bottom'],
+        bottom: ['body', 'top',30]
+      },
+      welcome_message: {
+        start: ['header', 'start'],
+        end: ['header', 'end'],
+        top: ['header', 'top'],
+      },
+      charging_message: {
+        start: ['header', 'start'],
+        end: ['header', 'end'],
+        top: ['welcome_message', 'bottom',5],
+        bottom: ['content1', 'top',10],
+      },
+      content1: {
+        start: ['header', 'start'],
+        end: ['header', 'end'],
+        top: ['charging_message', 'bottom', 24],
+        bottom: ['time_charge', 'top', 12],
+        width: 'parent',
+      },
+      time_charge: {
+        start: ['header', 'start'],
+        end: ['header', 'end'],
+        top: ['content1', 'bottom',20]
+      },
+      content3: {
+        start: ['header', 'start'],
+        end: ['header', 'end'],
+        bottom: ['header', 'bottom'],
+        visibility: 'invisible',
+      }
+    },
+    end: {
+      header: {
+        height: 100
+      },
+      circle: {
+        width: 60,
+        height: 60,
+        top: ['parent', 'top',60],
+        start: ['parent', 'start'],
+        end: ['parent', 'end']
+      },
+      body: {
+        width: 'parent',
+        height: 'spread',
+        top: ['header', 'bottom'],
+        bottom: ['parent', 'bottom']
+      },
+      canvas: {
+        width: 'parent',
+        height: 10,
+        top: ['header', 'bottom', 70],
+        bottom: ['body', 'top']
+      },
+      content1: {
+        end: ['parent', 'end', 40],
+        bottom: ['header', 'bottom', 8],
+        top: ['header', 'top', 8],
+        width: 120,
+      },
+      content2: {
+        start: ['header', 'start', 24],
+        top: ['header', 'top', 8],
+        bottom: ['header', 'bottom', 8],
+        visibility: 'invisible',
+      },
+      content3: {
+        start:['header','start' ,24],
+        top:['header','top' ,8],
+        bottom:['header','bottom' ,8]
+      }
+    }
+  },
+  Transitions: {
+    default: {
+      from: 'start',
+      to: 'end',
+      pathMotionArc: 'startHorizontal',
+      KeyFrames: {
+        KeyAttributes: [
+          {
+            target: ['content1'],
+            frames: [0, 100]
+          },
+          {
+            target: ['content2'],
+            frames: [0, 50, 100],
+            translationX: [0, 70, 0],
+          },
+          {
+            target: ['circle'],
+            frames: [0, 50, 0],
+            translationX: [0, -45, 0],
+          }
+        ]
+      },
+    }
+  }
+}
