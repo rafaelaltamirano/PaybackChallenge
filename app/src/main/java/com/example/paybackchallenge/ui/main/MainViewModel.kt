@@ -4,19 +4,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
-import com.example.paybackchallenge.domain.entities.User
 import com.example.paybackchallenge.ui.ViewModelWithStatus
 import com.example.paybackchallenge.usecases.MainUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
-class MainModel @Inject constructor(
+class MainViewModel @Inject constructor(
     private val mainUseCase: MainUseCase
 ) : ViewModelWithStatus() {
 

@@ -4,5 +4,5 @@ import com.example.paybackchallenge.domain.entities.User
 
 data class MainState(
     val loading: Boolean = false,
-    val showSplash : Boolean = true
+    val showSplash : Boolean = true,
 )

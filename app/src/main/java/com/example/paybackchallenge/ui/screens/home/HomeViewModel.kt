@@ -42,6 +42,10 @@ class HomeViewModel @Inject constructor(
         state = state.copy(itemImage = itemImage)
     }
 
+    fun setDialogState(openDialog: Boolean) {
+        state = state.copy(openDialog = openDialog)
+    }
+
      fun requestImages(text : String) = viewModelScope.launch {
         try {
             setLoading(true)
