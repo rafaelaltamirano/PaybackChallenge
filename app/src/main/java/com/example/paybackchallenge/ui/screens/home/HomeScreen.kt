@@ -29,23 +29,28 @@ import androidx.constraintlayout.compose.ExperimentalMotionApi
 import androidx.constraintlayout.compose.MotionLayout
 import androidx.constraintlayout.compose.MotionScene
 import androidx.constraintlayout.compose.layoutId
+import androidx.navigation.NavHostController
 import com.example.paybackchallenge.R
 import com.example.paybackchallenge.domain.enum.SwipingStates
 import com.example.paybackchallenge.ui.component.SearchView
 import com.example.paybackchallenge.ui.component.StatisticsTopBar
-import com.example.paybackchallenge.ui.component.nearbyPointsList
+import com.example.paybackchallenge.ui.component.imagesList
 import com.example.paybackchallenge.ui.main.MainModel
+import com.example.paybackchallenge.ui.router.RouterDir
 import com.example.paybackchallenge.ui.theme.Primary
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMotionApi::class)
 @Composable
-fun HomeScreen(homeModel: HomeScreenViewModel, mainModel: MainModel) {
+fun HomeScreen(
+    homeModel: HomeViewModel,
+    mainModel: MainModel,
+    navController: NavHostController
+) {
 
     val mainState = mainModel.state
     val homeState = homeModel.state
     val context = LocalContext.current
     val textState = remember { mutableStateOf(TextFieldValue("")) }
-    val realAvailable = 1f - 0.7f
     val motionScene = remember {
         context.resources.openRawResource(R.raw.motion_scene).readBytes().decodeToString()
     }
@@ -141,9 +146,10 @@ fun HomeScreen(homeModel: HomeScreenViewModel, mainModel: MainModel) {
                                     StatisticsTopBar(stringResource(R.string.results))
                                     Spacer(Modifier.height(24.dp))
                                 }
-                                nearbyPointsList(
-                                    homeState.listSuperCharges, homeState.imagesList
-                                )
+                                imagesList(homeState.imagesList,navController,onClick = {
+                                    homeModel.setSelectedItem(it)
+                                    navController.navigate(RouterDir.DETAILS.route)
+                                })
                             }
                         }
                     }

@@ -6,8 +6,7 @@ import com.example.paybackchallenge.domain.entities.SuperCharges
 
 
 data class HomeState(
-    val car: Car? = null,
     val loading: Boolean = false,
-    val listSuperCharges: List<SuperCharges> = emptyList(),
-    val imagesList: List<Image> = emptyList()
+    val imagesList: List<Image> = emptyList(),
+    val itemImage: Image? = null
 )

@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class HomeScreenViewModel @Inject constructor(
+class HomeViewModel @Inject constructor(
     private val homeUseCase: HomeUseCase
 ) : ViewModelWithStatus() {
 
@@ -26,8 +26,6 @@ class HomeScreenViewModel @Inject constructor(
         private set
 
     init {
-        requestCar()
-        requestCharges()
         requestImages("fruits")
     }
 
@@ -35,46 +33,14 @@ class HomeScreenViewModel @Inject constructor(
         state = state.copy(loading = loading)
     }
 
-    private fun setCar(car: Car) {
-        state = state.copy(car = car)
-    }
-
-    private fun setSuperCharges(listSuperCharges: List<SuperCharges>) {
-        state = state.copy(listSuperCharges = listSuperCharges)
-    }
-
 
     private fun setImages(images: List<Image>) {
         state = state.copy(imagesList = images)
     }
 
-
-    private fun requestCar() = viewModelScope.launch {
-        try {
-            setLoading(true)
-            withContext(Dispatchers.IO) {
-                homeUseCase.getCar()
-            }.also { setCar(it) }
-        } catch (e: Exception) {
-            handleNetworkError(e)
-        } finally {
-            setLoading(false)
-        }
+    fun setSelectedItem(itemImage: Image) {
+        state = state.copy(itemImage = itemImage)
     }
-
-    private fun requestCharges() = viewModelScope.launch {
-        try {
-            setLoading(true)
-            withContext(Dispatchers.IO) {
-                homeUseCase.getSuperCharges()
-            }.also { setSuperCharges(it) }
-        } catch (e: Exception) {
-            handleNetworkError(e)
-        } finally {
-            setLoading(false)
-        }
-    }
-
 
      fun requestImages(text : String) = viewModelScope.launch {
         try {

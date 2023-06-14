@@ -16,4 +16,5 @@
     <string name="km">Km</string>
     <string name="volt">Volt</string>
     <string name="min">Min</string>
+    <string name="details">Details</string>
 </resources>

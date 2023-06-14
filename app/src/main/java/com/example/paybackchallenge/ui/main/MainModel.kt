@@ -25,7 +25,6 @@ class MainModel @Inject constructor(
 
     init {
         startSplash()
-        requestUser()
     }
 
     private fun setLoading(loading: Boolean) {
@@ -34,26 +33,8 @@ class MainModel @Inject constructor(
 
     private fun startSplash() {
         viewModelScope.launch {
-            delay(35000)
+            delay(5000)
             setShowSplash(false)
-        }
-    }
-
-
-    private fun setUser(user: User) {
-        state = state.copy(user = user)
-    }
-
-    private fun requestUser() = viewModelScope.launch {
-        try {
-            setLoading(true)
-            withContext(Dispatchers.IO) {
-                mainUseCase.getUser()
-            }.also { setUser(it) }
-        } catch (e: Exception) {
-            handleNetworkError(e)
-        } finally {
-            setLoading(false)
         }
     }
 
