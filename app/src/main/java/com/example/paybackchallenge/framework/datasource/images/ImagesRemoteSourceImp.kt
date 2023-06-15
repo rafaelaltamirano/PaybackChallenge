@@ -13,7 +13,7 @@ class ImagesRemoteSourceImp @Inject constructor(
 ) : ImagesRemoteSource {
 
     override suspend fun searchImages(text: String): List<Image> {
-        val res = api.searchImages(API_KEY,text,"photo",1)
+        val res = api.searchImages(API_KEY,text,"photo",1,1)
         ApiTools.validateResponseOrFail(res)
         return res.body()!!.hits.map { it.toEntity() }
     }

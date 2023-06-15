@@ -25,7 +25,7 @@ object ApiModule {
     }
 
     @Provides
-    fun providesUsersApi(client: OkHttpClient): PixabayApi {
+    fun providesPixabayApi(client: OkHttpClient): PixabayApi {
         val builder = Retrofit.Builder()
             .baseUrl(BASE_URL_API)
             .addConverterFactory(GsonConverterFactory.create())

@@ -1,5 +1,6 @@
 package com.example.paybackchallenge.ui.screens.home
 
+import android.widget.Toast
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
@@ -53,6 +54,8 @@ fun HomeScreen(
     val motionScene = remember {
         context.resources.openRawResource(R.raw.motion_scene).readBytes().decodeToString()
     }
+    val imagelistt = homeModel.beerPagingFlow.collectAsLazyPagingItems()
+
 
     CustomDialog(show = homeState.openDialog,
         onDismissRequest = { homeModel.setDialogState(false) },
@@ -60,6 +63,17 @@ fun HomeScreen(
             navController.navigate(RouterDir.DETAILS.route)
             homeModel.setDialogState(false)
         })
+
+
+    LaunchedEffect(key1 = imagelistt.loadState) {
+        if(imagelistt.loadState.refresh is LoadState.Error) {
+            Toast.makeText(
+                context,
+                "Error: " + (imagelistt.loadState.refresh as LoadState.Error).error.message,
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
 
 
     Surface(
@@ -144,72 +158,103 @@ fun HomeScreen(
                                 .fillMaxWidth()
                                 .background(Color.White, RoundedCornerShape(12.dp))
                         ) {
-                            val imagelistt = homeModel.getBreakingNews().collectAsLazyPagingItems()
+                                if (imagelistt.loadState.refresh is LoadState.Loading) {
+                                    CircularProgressIndicator(
+                                        modifier = Modifier.align(Alignment.Center),
+                                        color = Color.Black
+                                    )
+                                } else {
+                                    LazyColumn(
+                                        modifier = Modifier.fillMaxSize(),
+                                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                                        horizontalAlignment = Alignment.CenterHorizontally
+                                    ) {
 
-                            LazyVerticalGrid(
-                                columns = GridCells.Fixed(2),
-                            ) {
-                                items(count = imagelistt.itemCount,
-                                    key = { imagelistt[it]?.id ?: 0 }) { pos ->
-                                    val itemModifier = Modifier
+                                        items(imagelistt.itemCount) {     pos ->
+                                            val itemModifier = Modifier
                                         .padding(4.dp)
                                         .height(130.dp)
                                         .fillMaxWidth()
 
-                                    ImageItem(modifier = itemModifier,
+                                            ImageItem(modifier = itemModifier,
                                         imagesList = imagelistt,
                                         position = pos,
                                         onClick = { image ->
                                             homeModel.setDialogState(true)
                                             homeModel.setSelectedItem(image)
                                         })
-                                }
+                                            }
 
-                                when (val state = imagelistt.loadState.refresh) { //FIRST LOAD
-                                    is LoadState.Error -> {
-                                        //TODO Error Item
-                                        //state.error to get error message
-                                    }
-                                    is LoadState.Loading -> { // Loading UI
                                         item {
-                                            Column(
-                                                modifier = Modifier.fillMaxSize(),
-                                                horizontalAlignment = Alignment.CenterHorizontally,
-                                                verticalArrangement = Arrangement.Center,
-                                            ) {
-                                                Text(
-                                                    modifier = Modifier.padding(8.dp),
-                                                    text = "Refresh Loading",
-                                                    color = Color.Black
-                                                )
-
+                                            if(imagelistt.loadState.append is LoadState.Loading) {
                                                 CircularProgressIndicator(color = Color.Black)
                                             }
                                         }
-                                    }
-                                    else -> {}
-                                }
 
-                                when (val state = imagelistt.loadState.append) { // Pagination
-                                    is LoadState.Error -> {
-                                        //TODO Pagination Error Item
-                                        //state.error to get error message
-                                    }
-                                    is LoadState.Loading -> { // Pagination Loading UI
-                                        item {
-                                            Column(
-                                                modifier = Modifier.fillMaxWidth(),
-                                                horizontalAlignment = Alignment.CenterHorizontally,
-                                                verticalArrangement = Arrangement.Center,
-                                            ) {
-                                                Text(text = "Pagination Loading",  color = Color.Black)
 
-                                                CircularProgressIndicator(color = Color.Black)
-                                            }
-                                        }
+//                                items(count = imagelistt.itemCount,
+//                                    key = { imagelistt[it]?.id ?: 0 }) { pos ->
+//                                    val itemModifier = Modifier
+//                                        .padding(4.dp)
+//                                        .height(130.dp)
+//                                        .fillMaxWidth()
+//
+//                                    ImageItem(modifier = itemModifier,
+//                                        imagesList = imagelistt,
+//                                        position = pos,
+//                                        onClick = { image ->
+//                                            homeModel.setDialogState(true)
+//                                            homeModel.setSelectedItem(image)
+//                                        })
+//                                }
+//
+//                                when (val state = imagelistt.loadState.refresh) { //FIRST LOAD
+//                                    is LoadState.Error -> {
+//                                        //TODO Error Item
+//                                        //state.error to get error message
+//                                    }
+//                                    is LoadState.Loading -> { // Loading UI
+//                                        item {
+//                                            Column(
+//                                                modifier = Modifier.fillMaxSize(),
+//                                                horizontalAlignment = Alignment.CenterHorizontally,
+//                                                verticalArrangement = Arrangement.Center,
+//                                            ) {
+//                                                Text(
+//                                                    modifier = Modifier.padding(8.dp),
+//                                                    text = "Refresh Loading",
+//                                                    color = Color.Black
+//                                                )
+//
+//                                                CircularProgressIndicator(color = Color.Black)
+//                                            }
+//                                        }
+//                                    }
+//                                    else -> {}
+//                                }
+//
+//                                when (val state = imagelistt.loadState.append) { // Pagination
+//                                    is LoadState.Error -> {
+//                                        //TODO Pagination Error Item
+//                                        //state.error to get error message
+//                                    }
+//                                    is LoadState.Loading -> { // Pagination Loading UI
+//                                        item {
+//                                            Column(
+//                                                modifier = Modifier.fillMaxWidth(),
+//                                                horizontalAlignment = Alignment.CenterHorizontally,
+//                                                verticalArrangement = Arrangement.Center,
+//                                            ) {
+//                                                Text(text = "Pagination Loading",  color = Color.Black)
+//
+//                                                CircularProgressIndicator(color = Color.Black)
+//                                            }
+//                                        }
+//                                    }
+//                                    else -> {}
+//                                }
                                     }
-                                    else -> {}
-                                }
+
                             }
                         }
                     }

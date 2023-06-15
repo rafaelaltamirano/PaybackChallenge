@@ -21,7 +21,7 @@ class NewsPagingSource @Inject constructor(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Image> {
         return try {
             val page = params.key ?: 1
-            val response = api.searchImages(API_KEY, "flowers", "photo", page = page)
+            val response = api.searchImages(API_KEY, "flowers", "photo", page = page,1)
 
             LoadResult.Page(
                 data = response.body()!!.hits.map { it.toEntity() },
