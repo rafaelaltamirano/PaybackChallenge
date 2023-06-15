@@ -26,15 +26,19 @@ class HomeViewModel @Inject constructor(
         private set
 
     init {
+        loadImagesFromCache()
         requestImages("fruits")
+
     }
+
+    private fun loadImagesFromCache() = homeUseCase.loadImages().also(::setImages)
 
     private fun setLoading(loading: Boolean) {
         state = state.copy(loading = loading)
     }
 
 
-    private fun setImages(images: List<Image>) {
+     fun setImages(images: List<Image>?) {
         state = state.copy(imagesList = images)
     }
 

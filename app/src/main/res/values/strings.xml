@@ -17,4 +17,6 @@
     <string name="volt">Volt</string>
     <string name="min">Min</string>
     <string name="details">Details</string>
+    <string name="no_internet"> No internet connection, load data cache</string>
+
 </resources>

@@ -12,5 +12,7 @@ class HomeUseCase @Inject constructor(private val imagesRepo: ImagesRepository) 
     suspend fun searchImages(text: String): List<Image> {
         return imagesRepo.searchImages(text)
     }
+
+    fun loadImages() = imagesRepo.images
 }
 

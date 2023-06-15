@@ -1,5 +1,9 @@
 package com.example.paybackchallenge.ui.screens.home
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.widget.Toast
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
@@ -52,6 +56,7 @@ fun HomeScreen(
     val motionScene = remember {
         context.resources.openRawResource(R.raw.motion_scene).readBytes().decodeToString()
     }
+    ShowToastIfNoInternet(context)
 
     CustomDialog(show = homeState.openDialog,
         onDismissRequest = { homeModel.setDialogState(false) },
@@ -152,7 +157,7 @@ fun HomeScreen(
                                     StatisticsTopBar(stringResource(R.string.results))
                                     Spacer(Modifier.height(24.dp))
                                 }
-                                imagesList(homeState.imagesList, navController, onClick = {
+                                imagesList(homeState.imagesList ?: emptyList(), navController, onClick = {
                                     homeModel.setDialogState(true)
                                     homeModel.setSelectedItem(it)
                                 })
@@ -241,5 +246,30 @@ fun HomeScreen(
                 }
             }
         }
+    }
+}
+
+
+fun isInternetAvailable(context: Context): Boolean {
+    val connectivityManager =
+        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+    val network = connectivityManager.activeNetwork ?: return false
+    val networkCapabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
+
+    return networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+}
+
+
+@Composable
+fun ShowToastIfNoInternet(context: Context) {
+    val isInternetConnected by rememberUpdatedState(newValue = isInternetAvailable(context))
+
+    if (!isInternetConnected) {
+        Toast.makeText(
+            context,
+            stringResource(R.string.no_internet),
+            Toast.LENGTH_SHORT
+        ).show()
     }
 }

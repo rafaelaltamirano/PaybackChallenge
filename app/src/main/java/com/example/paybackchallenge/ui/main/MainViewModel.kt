@@ -7,8 +7,10 @@ import androidx.lifecycle.viewModelScope
 import com.example.paybackchallenge.ui.ViewModelWithStatus
 import com.example.paybackchallenge.usecases.MainUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,6 +22,9 @@ class MainViewModel @Inject constructor(
         private set
 
     init {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) { mainUseCase.loadImagesFromCache() }
+        }
         startSplash()
     }
 
