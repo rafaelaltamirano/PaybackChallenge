@@ -5,6 +5,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -30,12 +32,11 @@ import androidx.constraintlayout.compose.MotionLayout
 import androidx.constraintlayout.compose.MotionScene
 import androidx.constraintlayout.compose.layoutId
 import androidx.navigation.NavHostController
+import androidx.paging.LoadState
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.paybackchallenge.R
 import com.example.paybackchallenge.domain.enum.SwipingStates
-import com.example.paybackchallenge.ui.component.CustomDialog
-import com.example.paybackchallenge.ui.component.SearchView
-import com.example.paybackchallenge.ui.component.StatisticsTopBar
-import com.example.paybackchallenge.ui.component.imagesList
+import com.example.paybackchallenge.ui.component.*
 import com.example.paybackchallenge.ui.main.MainViewModel
 import com.example.paybackchallenge.ui.router.RouterDir
 import com.example.paybackchallenge.ui.theme.Primary
@@ -143,19 +144,72 @@ fun HomeScreen(
                                 .fillMaxWidth()
                                 .background(Color.White, RoundedCornerShape(12.dp))
                         ) {
-                            //Merged lazy column with lazy row and lazy column inside
-                            LazyColumn(
-                                modifier = Modifier.fillMaxSize()
+                            val imagelistt = homeModel.getBreakingNews().collectAsLazyPagingItems()
+
+                            LazyVerticalGrid(
+                                columns = GridCells.Fixed(2),
                             ) {
-                                items(1) {
-                                    Spacer(Modifier.height(12.dp))
-                                    StatisticsTopBar(stringResource(R.string.results))
-                                    Spacer(Modifier.height(24.dp))
+                                items(count = imagelistt.itemCount,
+                                    key = { imagelistt[it]?.id ?: 0 }) { pos ->
+                                    val itemModifier = Modifier
+                                        .padding(4.dp)
+                                        .height(130.dp)
+                                        .fillMaxWidth()
+
+                                    ImageItem(modifier = itemModifier,
+                                        imagesList = imagelistt,
+                                        position = pos,
+                                        onClick = { image ->
+                                            homeModel.setDialogState(true)
+                                            homeModel.setSelectedItem(image)
+                                        })
                                 }
-                                imagesList(homeState.imagesList, navController, onClick = {
-                                    homeModel.setDialogState(true)
-                                    homeModel.setSelectedItem(it)
-                                })
+
+                                when (val state = imagelistt.loadState.refresh) { //FIRST LOAD
+                                    is LoadState.Error -> {
+                                        //TODO Error Item
+                                        //state.error to get error message
+                                    }
+                                    is LoadState.Loading -> { // Loading UI
+                                        item {
+                                            Column(
+                                                modifier = Modifier.fillMaxSize(),
+                                                horizontalAlignment = Alignment.CenterHorizontally,
+                                                verticalArrangement = Arrangement.Center,
+                                            ) {
+                                                Text(
+                                                    modifier = Modifier.padding(8.dp),
+                                                    text = "Refresh Loading",
+                                                    color = Color.Black
+                                                )
+
+                                                CircularProgressIndicator(color = Color.Black)
+                                            }
+                                        }
+                                    }
+                                    else -> {}
+                                }
+
+                                when (val state = imagelistt.loadState.append) { // Pagination
+                                    is LoadState.Error -> {
+                                        //TODO Pagination Error Item
+                                        //state.error to get error message
+                                    }
+                                    is LoadState.Loading -> { // Pagination Loading UI
+                                        item {
+                                            Column(
+                                                modifier = Modifier.fillMaxWidth(),
+                                                horizontalAlignment = Alignment.CenterHorizontally,
+                                                verticalArrangement = Arrangement.Center,
+                                            ) {
+                                                Text(text = "Pagination Loading",  color = Color.Black)
+
+                                                CircularProgressIndicator(color = Color.Black)
+                                            }
+                                        }
+                                    }
+                                    else -> {}
+                                }
                             }
                         }
                     }

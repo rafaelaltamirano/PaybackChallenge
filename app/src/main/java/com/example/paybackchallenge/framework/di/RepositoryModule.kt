@@ -5,6 +5,7 @@ import com.example.paybackchallenge.data.datasource.ImagesRemoteSource
 import com.example.paybackchallenge.data.datasource.ImagesRepository
 import com.example.paybackchallenge.data.datasource.LocalSource
 import com.example.paybackchallenge.domain.entities.Image
+import com.example.paybackchallenge.framework.api.PixabayApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,8 +20,9 @@ object RepositoryModule {
     @Provides
     fun providerImagesRepository(
         remote: ImagesRemoteSource,
-        local: ImagesLocalSource): ImagesRepository {
-        return ImagesRepository(remote,local)
+        local: ImagesLocalSource,
+    api : PixabayApi): ImagesRepository {
+        return ImagesRepository(remote,local,api)
     }
 
 }

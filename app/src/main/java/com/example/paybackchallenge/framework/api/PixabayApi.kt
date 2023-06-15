@@ -13,5 +13,6 @@ interface PixabayApi {
         @Query("key") apiKey: String,
         @Query("q") search: String,
         @Query("image_type") image_type: String,
+        @Query("page") page: Int
     ): Response<ResponseWrapper<List<ImageResponse>>>
 }
