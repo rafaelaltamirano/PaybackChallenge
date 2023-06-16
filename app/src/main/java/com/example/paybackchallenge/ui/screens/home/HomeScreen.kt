@@ -1,8 +1,6 @@
 package com.example.paybackchallenge.ui.screens.home
 
 import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import android.widget.Toast
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -43,13 +41,13 @@ import com.example.paybackchallenge.ui.component.imagesList
 import com.example.paybackchallenge.ui.main.MainViewModel
 import com.example.paybackchallenge.ui.router.RouterDir
 import com.example.paybackchallenge.ui.theme.Primary
+import com.example.paybackchallenge.utils.isInternetAvailable
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMotionApi::class)
 @Composable
 fun HomeScreen(
-    homeModel: HomeViewModel, mainModel: MainViewModel, navController: NavHostController
+    homeModel: HomeViewModel, navController: NavHostController
 ) {
-    val mainState = mainModel.state
     val homeState = homeModel.state
     val context = LocalContext.current
     val textState = remember { mutableStateOf(TextFieldValue("")) }
@@ -157,10 +155,12 @@ fun HomeScreen(
                                     StatisticsTopBar(stringResource(R.string.results))
                                     Spacer(Modifier.height(24.dp))
                                 }
-                                imagesList(homeState.imagesList ?: emptyList(), navController, onClick = {
-                                    homeModel.setDialogState(true)
-                                    homeModel.setSelectedItem(it)
-                                })
+                                imagesList(homeState.imagesList ?: emptyList(),
+                                    navController,
+                                    onClick = {
+                                        homeModel.setDialogState(true)
+                                        homeModel.setSelectedItem(it)
+                                    })
                             }
                         }
                     }
@@ -250,26 +250,13 @@ fun HomeScreen(
 }
 
 
-fun isInternetAvailable(context: Context): Boolean {
-    val connectivityManager =
-        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
-    val network = connectivityManager.activeNetwork ?: return false
-    val networkCapabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
-
-    return networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-}
-
-
 @Composable
 fun ShowToastIfNoInternet(context: Context) {
     val isInternetConnected by rememberUpdatedState(newValue = isInternetAvailable(context))
 
     if (!isInternetConnected) {
         Toast.makeText(
-            context,
-            stringResource(R.string.no_internet),
-            Toast.LENGTH_SHORT
+            context, stringResource(R.string.no_internet), Toast.LENGTH_SHORT
         ).show()
     }
 }

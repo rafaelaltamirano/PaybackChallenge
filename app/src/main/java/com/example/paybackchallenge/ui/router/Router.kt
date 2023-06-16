@@ -25,7 +25,7 @@ fun Router(mainModel: MainViewModel) {
     ) {
         composable(SPLASH.route) { SplashScreen() }
         composable(HOME.route) {
-            HomeScreen(homeModel, mainModel, navController)
+            HomeScreen(homeModel, navController)
         }
         composable(DETAILS.route) {
             DetailScreen(
